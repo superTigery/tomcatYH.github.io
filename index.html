@@ -73,6 +73,119 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-test" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/test/" class="article-date">
+  <time class="dt-published" datetime="2021-06-17T10:27:27.620Z" itemprop="datePublished">2021-06-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    function person() {
+      var name = 'tom'
+      return function getName() {
+        console.log(name)
+      }
+    }
+    var closure = person()
+    console.log('查看闭包')
+  </script>
+</html>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/test/" data-id="ckq0s08g70003e8uegoysgte0" data-title="" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js_note_1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/js_note_1/" class="article-date">
+  <time class="dt-published" datetime="2021-06-17T09:59:12.000Z" itemprop="datePublished">2021-06-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js%E9%9D%A2%E7%BB%8F/">js面经</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/js_note_1/">js_note_1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>概念:<br>MDN 的解释:一个函数和对其(lexical environmet)词法环境的引用捆绑在一起 就叫做闭包 我的理解是 闭包是一种现象:</p>
+<ol>
+<li>函数嵌套</li>
+<li>内部函数引用外部函数的变量</li>
+<li>外部函数被调用(也就是参数或者变量不会被垃圾回收机制回收)</li>
+</ol>
+<p>满足了这三点的现象就是闭包</p>
+<p>作用:</p>
+<ol>
+<li>创建我们自己的私有变量,可以避免变量全局污染</li>
+<li>内部函数能够访问到其外层函数的作用域</li>
+<li>可以在内存中一直保存变量</li>
+</ol>
+<p>缺点:</p>
+<ol>
+<li>由于变量会一直保存在内存中,使用不善的话,会造成内存溢出</li>
+</ol>
+<p>这就是最简单的闭包:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function person()&#123;</span><br><span class="line">    var name = &#x27;tom&#x27;</span><br><span class="line">    return function getName()&#123;</span><br><span class="line">        console.log(name)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">var closure = person()</span><br><span class="line">console.log(&#x27;查看闭包&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/js_note_1/clourse.png" alt="&#39;闭包&#39;"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/js_note_1/" data-id="ckq0s08g40001e8ue8y0k5c5f" data-title="js_note_1" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-vue2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/vue2/" class="article-date">
@@ -144,6 +257,10 @@
   <time class="dt-published" datetime="2021-01-23T02:36:44.000Z" itemprop="datePublished">2021-01-23</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js%E9%9D%A2%E7%BB%8F/">js面经</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -165,7 +282,7 @@
 <hr>
 <hr>
 <p>函数节流<br>概念:单位时间触发多次事件,只执行一次其事件对应的回调函数,就叫函数节流<br>如果 setTimeout 的返回值存在 就不执行函数 执行了回调函数后会把 timer 重置为 null</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function throttle(fun,delay)&#123;</span><br><span class="line">let timer = null</span><br><span class="line">return function()&#123;</span><br><span class="line">if(timer)&#123;</span><br><span class="line">return</span><br><span class="line">&#125;</span><br><span class="line">timer = setTimeout(&#123;</span><br><span class="line">fun.apply(this,arguments)</span><br><span class="line">timer = null</span><br><span class="line">&#125;,delay)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function throttle(fun,delay)&#123;</span><br><span class="line">    let timer = null</span><br><span class="line">    return function()&#123;</span><br><span class="line">        if(timer)&#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        timer = setTimeout(&#123;</span><br><span class="line">        fun.apply(this,arguments)</span><br><span class="line">            timer = null</span><br><span class="line">        &#125;,delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p>函数防抖<br>概念:触发事件后,在规定的时间后执行其对应的回调函数,如果在规定的时间内又触发了事件,则重新计时<br>将 setTimeout 的返回值挂载到 window 上,每次触发事件都会把上次的 timer 清除了,直到最后次无法清除,再执行回调函数<br>function debunce(fun,delay){<br>let timer = null<br>return function(){<br>if(timer){<br>cleanTimeout(timer)<br>timer = null<br>}<br>timer = setTimeout({<br>fun.apply(this,arguments)<br>},delay)<br>}<br>}</p>
@@ -283,22 +400,36 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/">云服务器</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E9%9D%A2%E7%BB%8F/">js面经</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/">云服务器</a></li></ul>
     </div>
   </div>
 
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/javaScript/" rel="tag">javaScript</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/javaScript/" style="font-size: 10px;">javaScript</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
     </div>
   </div>
 
@@ -309,6 +440,14 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/test/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/js_note_1/">js_note_1</a>
+          </li>
         
           <li>
             <a href="/vue2/">vue2</a>
