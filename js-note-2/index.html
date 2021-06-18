@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>javaScript之函数节流与函数防抖 | SuperTiger’s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="函数节流概念:  单位时间内触发多次事件,只执行一次其事件对应的回调函数  实现: 12345678910111213141516171819202122232425延迟执行版本:function throttle(fn,delay)&amp;#123;    var timer &#x3D; null    return function()&amp;#123;        if(timer)&amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaScript之函数节流与函数防抖">
+<meta property="og:url" content="http://example.com/js-note-2/index.html">
+<meta property="og:site_name" content="SuperTiger’s Blog">
+<meta property="og:description" content="函数节流概念:  单位时间内触发多次事件,只执行一次其事件对应的回调函数  实现: 12345678910111213141516171819202122232425延迟执行版本:function throttle(fn,delay)&amp;#123;    var timer &#x3D; null    return function()&amp;#123;        if(timer)&amp;#123;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/js-note-2/throttle.jpg">
+<meta property="og:image" content="http://example.com/js-note-2/debunce.jpg">
+<meta property="article:published_time" content="2021-06-18T04:55:02.000Z">
+<meta property="article:modified_time" content="2021-06-18T07:56:12.321Z">
+<meta property="article:author" content="SuperTg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/js-note-2/throttle.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="SuperTiger’s Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SuperTiger’s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-js-note-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/js-note-2/" class="article-date">
+  <time class="dt-published" datetime="2021-06-18T04:55:02.000Z" itemprop="datePublished">2021-06-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javaScript/">javaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      javaScript之函数节流与函数防抖
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="函数节流"><a href="#函数节流" class="headerlink" title="函数节流"></a>函数节流</h2><p>概念:</p>
+<blockquote>
+<p>单位时间内触发多次事件,只执行一次其事件对应的回调函数</p>
+</blockquote>
+<p>实现:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">延迟执行版本:</span><br><span class="line">function throttle(fn,delay)&#123;</span><br><span class="line">    var timer = null</span><br><span class="line">    return function()&#123;</span><br><span class="line">        if(timer)&#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        timer = setTimeout(()=&gt;&#123;</span><br><span class="line">            fn.apply(this,arguments)</span><br><span class="line">            timer = null</span><br><span class="line">        &#125;,delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">立即执行版本:</span><br><span class="line">function throttle(fn,delay=500)&#123;</span><br><span class="line">    let startTime = Date.now()</span><br><span class="line">    return function()&#123;</span><br><span class="line">        let endTime = Date.now()</span><br><span class="line">        let diffValue = endTime - startTime</span><br><span class="line">        if(diffValue &gt;= delay)&#123;</span><br><span class="line">            fn.call(this,arguments)</span><br><span class="line">            startTime = Date.now()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>理解:</p>
+<p>在单位事件内,不论触发多少次事件,只执行第一次事件对应的回调函数,并且在计时结束后相应</p>
+<blockquote>
+<p>只认第一次事件的回调</p>
+</blockquote>
+<p>运用:<br><img src="/js-note-2/throttle.jpg" alt="&#39;节流&#39;"></p>
+<h2 id="函数防抖"><a href="#函数防抖" class="headerlink" title="函数防抖"></a>函数防抖</h2><p>概念:</p>
+<blockquote>
+<p>事件触发后,在规定的时间后(单位时间)执行其事件对应的回调函数;如果在单位事件内再次触发事件,则重新计时</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function debunce(fn, delay = 500) &#123;</span><br><span class="line">    var timer = null</span><br><span class="line">    return function () &#123;</span><br><span class="line">    if (timer) &#123;</span><br><span class="line">        clearTimeout(timer)</span><br><span class="line">    &#125;</span><br><span class="line">    timer = setTimeout(() =&gt; &#123;</span><br><span class="line">        fn.apply(this, arguments)</span><br><span class="line">    &#125;, delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>理解:</p>
+<p>利用闭包将 timer 挂载到 window 上,每次触发事件就把上一次 timer 清除掉,直到最后一次事件执行回调函数</p>
+<blockquote>
+<p>会一直等,等到最后一次事件的回调(只认最后次)</p>
+</blockquote>
+<p>运用:</p>
+<p><img src="/js-note-2/debunce.jpg" alt="&#39;防抖&#39;"><br>作用:</p>
+<span style="color:red">
+优化高频率执行回调(例如:resize、keypress、scroll、mousemove等事件的回调)
+</span>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/js-note-2/" data-id="ckq21ga0u0000iwue6cz1cz86" data-title="javaScript之函数节流与函数防抖" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/js_note_1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">javaScript之闭包</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/javaScript/">javaScript</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/js-note-2/">javaScript之函数节流与函数防抖</a>
+          </li>
+        
+          <li>
+            <a href="/js_note_1/">javaScript之闭包</a>
+          </li>
+        
+          <li>
+            <a href="/vue2/">vue2</a>
+          </li>
+        
+          <li>
+            <a href="/notes/">notes</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 SuperTg<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

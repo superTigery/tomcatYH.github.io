@@ -73,6 +73,77 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js-note-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/js-note-2/" class="article-date">
+  <time class="dt-published" datetime="2021-06-18T04:55:02.000Z" itemprop="datePublished">2021-06-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javaScript/">javaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/js-note-2/">javaScript之函数节流与函数防抖</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="函数节流"><a href="#函数节流" class="headerlink" title="函数节流"></a>函数节流</h2><p>概念:</p>
+<blockquote>
+<p>单位时间内触发多次事件,只执行一次其事件对应的回调函数</p>
+</blockquote>
+<p>实现:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">延迟执行版本:</span><br><span class="line">function throttle(fn,delay)&#123;</span><br><span class="line">    var timer = null</span><br><span class="line">    return function()&#123;</span><br><span class="line">        if(timer)&#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        timer = setTimeout(()=&gt;&#123;</span><br><span class="line">            fn.apply(this,arguments)</span><br><span class="line">            timer = null</span><br><span class="line">        &#125;,delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">立即执行版本:</span><br><span class="line">function throttle(fn,delay=500)&#123;</span><br><span class="line">    let startTime = Date.now()</span><br><span class="line">    return function()&#123;</span><br><span class="line">        let endTime = Date.now()</span><br><span class="line">        let diffValue = endTime - startTime</span><br><span class="line">        if(diffValue &gt;= delay)&#123;</span><br><span class="line">            fn.call(this,arguments)</span><br><span class="line">            startTime = Date.now()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>理解:</p>
+<p>在单位事件内,不论触发多少次事件,只执行第一次事件对应的回调函数,并且在计时结束后相应</p>
+<blockquote>
+<p>只认第一次事件的回调</p>
+</blockquote>
+<p>运用:<br><img src="/js-note-2/throttle.jpg" alt="&#39;节流&#39;"></p>
+<h2 id="函数防抖"><a href="#函数防抖" class="headerlink" title="函数防抖"></a>函数防抖</h2><p>概念:</p>
+<blockquote>
+<p>事件触发后,在规定的时间后(单位时间)执行其事件对应的回调函数;如果在单位事件内再次触发事件,则重新计时</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function debunce(fn, delay = 500) &#123;</span><br><span class="line">    var timer = null</span><br><span class="line">    return function () &#123;</span><br><span class="line">    if (timer) &#123;</span><br><span class="line">        clearTimeout(timer)</span><br><span class="line">    &#125;</span><br><span class="line">    timer = setTimeout(() =&gt; &#123;</span><br><span class="line">        fn.apply(this, arguments)</span><br><span class="line">    &#125;, delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>理解:</p>
+<p>利用闭包将 timer 挂载到 window 上,每次触发事件就把上一次 timer 清除掉,直到最后一次事件执行回调函数</p>
+<blockquote>
+<p>会一直等,等到最后一次事件的回调(只认最后次)</p>
+</blockquote>
+<p>运用:</p>
+<p><img src="/js-note-2/debunce.jpg" alt="&#39;防抖&#39;"><br>作用:</p>
+<span style="color:red">
+优化高频率执行回调(例如:resize、keypress、scroll、mousemove等事件的回调)
+</span>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/js-note-2/" data-id="ckq21ga0u0000iwue6cz1cz86" data-title="javaScript之函数节流与函数防抖" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-js_note_1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/js_note_1/" class="article-date">
@@ -91,7 +162,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/js_note_1/">闭包</a>
+      <a class="p-name article-title" href="/js_note_1/">javaScript之闭包</a>
     </h1>
   
 
@@ -99,7 +170,8 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>概念:<br>MDN 的解释:<span style="display:inline-block;background:black">一个函数和对其(lexical environmet)词法环境的引用捆绑在一起 就叫做闭包</span><br> 我的理解是 闭包是一种现象:</p>
+        <h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>概念:</p>
+<p>MDN 的解释:<span style="display:inline-block;background:black">一个函数和对其(lexical environmet)词法环境的引用捆绑在一起 就叫做闭包</span><br> 我的理解是 闭包是一种现象:</p>
 <ol>
 <li>函数嵌套</li>
 <li>内部函数引用外部函数的变量</li>
@@ -137,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/js_note_1/" data-id="ckq0s08g40001e8ue8y0k5c5f" data-title="闭包" class="article-share-link">Share</a>
+      <a data-url="http://example.com/js_note_1/" data-id="ckq0s08g40001e8ue8y0k5c5f" data-title="javaScript之闭包" class="article-share-link">Share</a>
       
       
       
@@ -248,7 +320,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function throttle(fun,delay)&#123;</span><br><span class="line">    let timer = null</span><br><span class="line">    return function()&#123;</span><br><span class="line">        if(timer)&#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        timer = setTimeout(&#123;</span><br><span class="line">        fun.apply(this,arguments)</span><br><span class="line">            timer = null</span><br><span class="line">        &#125;,delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<p>函数防抖<br>概念:触发事件后,在规定的时间后执行其对应的回调函数,如果在规定的时间内又触发了事件,则重新计时<br>将 setTimeout 的返回值挂载到 window 上,每次触发事件都会把上次的 timer 清除了,直到最后次无法清除,再执行回调函数<br>function debunce(fun,delay){<br>let timer = null<br>return function(){<br>if(timer){<br>cleanTimeout(timer)<br>timer = null<br>}<br>timer = setTimeout({<br>fun.apply(this,arguments)<br>},delay)<br>}<br>}</p>
+<p>函数防抖<br>概念:触发事件后,在规定的时间后执行其对应的回调函数,如果在规定的时间内又触发了事件,则重新计时<br>将 setTimeout 的返回值挂载到 window 上,每次触发事件都会把上次的 timer 清除了,直到最后次无法清除,再执行回调函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function debunce(fun,delay)&#123;</span><br><span class="line">    let timer = null</span><br><span class="line">    return function()&#123;</span><br><span class="line">        if(timer)&#123;</span><br><span class="line">            cleanTimeout(timer)</span><br><span class="line">            timer = null</span><br><span class="line">        &#125;</span><br><span class="line">        timer = setTimeout(&#123;</span><br><span class="line">            fun.apply(this,arguments)</span><br><span class="line">        &#125;,delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <hr>
 <p>继承<br>解决实例对象间属性共享的方案<br>1:原型链继承<br>核心:子类原型指向父类的实例<br>缺点 1:子类所有实例都共享父类原型上的属性,如果一个实例修改了父类原型上的引用变量,其他实例也会共享这个修改<br>缺点 2:实例化的时候无法向父类构造函数传参,也就无法初始化父类的属性<br>child.prototype = new Father()</p>
 <p>2:构造函数继承:<br>核心:在子类的构造函数中调用父类构造函数<br>缺点 1:无法共享父类原型链上的属性<br>function Children(){<br>Father.apply(this,arguments)<br>}<br>3:组合继承:<br>核心:子类的构造函数中调用父类构造函数;子类原型指向父类的实例<br>优点 1:可以向父类构造函数传参<br>优点 2:避免了父类中引用属性在子类中共享的问题<br>优点 3：父类原型链上的方法子类也可以共享<br>缺点:调用父类两次构造函数(实例化一次,子类 prototype 属性指向父类实例一次)<br>4:原型继承<br>核心:子类 prototype 属性指向父类的原型</p>
@@ -349,7 +423,11 @@
       <ul>
         
           <li>
-            <a href="/js_note_1/">闭包</a>
+            <a href="/js-note-2/">javaScript之函数节流与函数防抖</a>
+          </li>
+        
+          <li>
+            <a href="/js_note_1/">javaScript之闭包</a>
           </li>
         
           <li>
