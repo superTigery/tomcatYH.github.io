@@ -100,17 +100,12 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h2 id="函数节流"><a href="#函数节流" class="headerlink" title="函数节流"></a>函数节流</h2><p>概念:</p>
-<blockquote>
 <p>单位时间内触发多次事件,只执行一次其事件对应的回调函数</p>
-</blockquote>
 <p>实现:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">延迟执行版本:</span><br><span class="line">function throttle(fn,delay)&#123;</span><br><span class="line">    var timer = null</span><br><span class="line">    return function()&#123;</span><br><span class="line">        if(timer)&#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        timer = setTimeout(()=&gt;&#123;</span><br><span class="line">            fn.apply(this,arguments)</span><br><span class="line">            timer = null</span><br><span class="line">        &#125;,delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">立即执行版本:</span><br><span class="line">function throttle(fn,delay=500)&#123;</span><br><span class="line">    let startTime = Date.now()</span><br><span class="line">    return function()&#123;</span><br><span class="line">        let endTime = Date.now()</span><br><span class="line">        let diffValue = endTime - startTime</span><br><span class="line">        if(diffValue &gt;= delay)&#123;</span><br><span class="line">            fn.call(this,arguments)</span><br><span class="line">            startTime = Date.now()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>理解:</p>
-<p>在单位事件内,不论触发多少次事件,只执行第一次事件对应的回调函数,并且在计时结束后相应</p>
-<blockquote>
-<p>只认第一次事件的回调</p>
-</blockquote>
+<p>在单位事件内,不论触发多少次事件,只执行第一次事件对应的回调函数,并且在计时结束后相应(只认<span style="color:red">第一次事件的回调</span>)</p>
 <p>运用:<br><img src="/js-note-2/throttle.jpg" alt="&#39;节流&#39;"></p>
 <h2 id="函数防抖"><a href="#函数防抖" class="headerlink" title="函数防抖"></a>函数防抖</h2><p>概念:</p>
 <blockquote>
@@ -119,10 +114,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function debunce(fn, delay = 500) &#123;</span><br><span class="line">    var timer = null</span><br><span class="line">    return function () &#123;</span><br><span class="line">    if (timer) &#123;</span><br><span class="line">        clearTimeout(timer)</span><br><span class="line">    &#125;</span><br><span class="line">    timer = setTimeout(() =&gt; &#123;</span><br><span class="line">        fn.apply(this, arguments)</span><br><span class="line">    &#125;, delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>理解:</p>
-<p>利用闭包将 timer 挂载到 window 上,每次触发事件就把上一次 timer 清除掉,直到最后一次事件执行回调函数</p>
-<blockquote>
-<p>会一直等,等到最后一次事件的回调(只认最后次)</p>
-</blockquote>
+<p>利用闭包将 timer 挂载到 window 上,每次触发事件就把上一次 timer 清除掉,直到最后一次事件执行回调函数(<span style="color:red">只认最后次</span>)</p>
 <p>运用:</p>
 <p><img src="/js-note-2/debunce.jpg" alt="&#39;防抖&#39;"><br>作用:</p>
 <span style="color:red">
