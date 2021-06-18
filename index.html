@@ -73,6 +73,93 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js-note-3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/js-note-3/" class="article-date">
+  <time class="dt-published" datetime="2021-06-18T09:08:56.000Z" itemprop="datePublished">2021-06-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javaScript/">javaScript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/js-note-3/">继承</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>作用:</p>
+<p><span style="color:red">解决实例对象间数据共享的方案</span></p>
+<ol>
+<li>原型链继承</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">function Person(name,age)&#123;</span><br><span class="line">    this.age = age</span><br><span class="line">    this.name = name</span><br><span class="line">&#125;</span><br><span class="line">// Person原型上添加study方法</span><br><span class="line">Person.prototype.study = function()&#123;</span><br><span class="line">    console.log(`正在学习javaScript继承`)</span><br><span class="line">&#125;</span><br><span class="line">// Person原型上添加selfProperty属性(一般不这样做)</span><br><span class="line">Person.prototype.selfProperty=&#123;</span><br><span class="line">    height:&#x27;170cm&#x27;,</span><br><span class="line">    weight:&#x27;60kg&#x27;</span><br><span class="line">&#125;</span><br><span class="line">function Student(studyContent)&#123;</span><br><span class="line">    this.studyContent = studyContent</span><br><span class="line">&#125;</span><br><span class="line">// 原型链继承关键点:子类原型指向父类的实例</span><br><span class="line">Student.prototype = new Person()</span><br><span class="line">// 构造函数指向Student</span><br><span class="line">Student.prototype.constructor = Student</span><br><span class="line">let stu = new Student(&#x27;prototype&#x27;)</span><br><span class="line">let stu2= new Student(&#x27;__proto__&#x27;)</span><br><span class="line">// 获取stu的原型对象</span><br><span class="line">let stuProto = Object.getPrototypeOf(stu)</span><br><span class="line">// 修改stu属性</span><br><span class="line">stuProto.__proto__.selfProperty.weight = 0</span><br><span class="line">//打印stu</span><br><span class="line">stu</span><br><span class="line">//调用原型上的study方法</span><br><span class="line">stu.study()</span><br><span class="line">//打印stu2</span><br><span class="line">stu2</span><br></pre></td></tr></table></figure>
+
+<p><img src="/js-note-3/%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%BB%A7%E6%89%BF2.jpg" alt="&#39;原型链继承&#39;"></p>
+<p>核心:<br><span style="color:red"><br>子类构造函数指向父类实例<br></span></p>
+<p>缺点:</p>
+<ol>
+<li>初始化子类实例的时候 父类属性不能得到初始化</li>
+<li>其中一个子类实例修改了父类原型上的<span style="color:red">引用变量</span>的属性时,其他子类实例共享这个修改</li>
+</ol>
+<h2 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function Animal(type,color)&#123;</span><br><span class="line">    this.type = type</span><br><span class="line">    this.color = color</span><br><span class="line">&#125;</span><br><span class="line">Animal.prototype.eat = function()&#123;</span><br><span class="line">    console.log(&#x27;吃&#x27;)</span><br><span class="line">&#125;</span><br><span class="line">function Dog(kind)&#123;</span><br><span class="line">    // 构造函数继承关键点</span><br><span class="line">    Animal.call(this,&#x27;走兽&#x27;,&#x27;white&#x27;)</span><br><span class="line">    this.kind = kind</span><br><span class="line">&#125;</span><br><span class="line">Dog.prototype.constructor = Dog</span><br><span class="line">let dog1 = new Dog(&#x27;中华田园犬&#x27;)</span><br><span class="line">// 打印dog1</span><br><span class="line">dog1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/js-note-3/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%BB%A7%E6%89%BF.jpg" alt="&#39;构造函数继承&#39;"></p>
+<p>核心:<br><span style="color:red">子类构造函数中调用父类构造函数</span></p>
+<p>优点:</p>
+<ol>
+<li>能够初始化父类的属性</li>
+</ol>
+<p>缺点:</p>
+<ol start="2">
+<li>实例一个子类实例,调用两次构造函数(父类一次,子类一次)</li>
+<li>父类原型上的方法不能继承</li>
+</ol>
+<h2 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Animal(type,color)&#123;</span><br><span class="line">    this.type = type</span><br><span class="line">    this.color = color</span><br><span class="line">&#125;</span><br><span class="line">Animal.prototype.eat = function()&#123;</span><br><span class="line">    console.log(&#x27;吃&#x27;)</span><br><span class="line">&#125;</span><br><span class="line">function Dog(kind)&#123;</span><br><span class="line">    // 构造函数继承关键点</span><br><span class="line">    Animal.call(this,&#x27;走兽&#x27;,&#x27;white&#x27;)</span><br><span class="line">    this.kind = kind</span><br><span class="line">&#125;</span><br><span class="line">Dog.prototype = new Animal()</span><br><span class="line">Dog.prototype.constructor = Dog</span><br><span class="line">let dog1 = new Dog(&#x27;中华田园犬&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/js-note-3/%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF.jpg" alt="&#39;组合继承&#39;"></p>
+<p>核心:</p>
+<ol>
+<li>子类原型指向父类实例</li>
+<li>子类构造函数中调用父类构造函数</li>
+</ol>
+<p>优点:</p>
+<ol>
+<li>可以向父类构造函数传参</li>
+<li>避免了父类中引用属性在子类中共享的问题</li>
+<li>父类原型链上的方法子类也可以共享\</li>
+</ol>
+<p>缺点:</p>
+<ol>
+<li>调用父类两次构造函数(实例化一次,子类 prototype 指向父类实例一次)</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/js-note-3/" data-id="ckq276mu20000kkueboh2am3x" data-title="继承" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-js-note-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/js-note-2/" class="article-date">
@@ -411,6 +498,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/js-note-3/">继承</a>
+          </li>
         
           <li>
             <a href="/js-note-2/">javaScript之函数节流与函数防抖</a>
