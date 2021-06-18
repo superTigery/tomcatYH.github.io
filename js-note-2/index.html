@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://example.com/js-note-2/throttle.jpg">
 <meta property="og:image" content="http://example.com/js-note-2/debunce.jpg">
 <meta property="article:published_time" content="2021-06-18T04:55:02.000Z">
-<meta property="article:modified_time" content="2021-06-18T07:59:40.580Z">
+<meta property="article:modified_time" content="2021-06-18T08:00:35.039Z">
 <meta property="article:author" content="SuperTg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/js-note-2/throttle.jpg">
@@ -111,9 +111,7 @@
 <p>在单位事件内,不论触发多少次事件,只执行第一次事件对应的回调函数,并且在计时结束后相应(只认<span style="color:red">第一次事件的回调</span>)</p>
 <p>运用:<br><img src="/js-note-2/throttle.jpg" alt="&#39;节流&#39;"></p>
 <h2 id="函数防抖"><a href="#函数防抖" class="headerlink" title="函数防抖"></a>函数防抖</h2><p>概念:</p>
-<blockquote>
 <p>事件触发后,在规定的时间后(单位时间)执行其事件对应的回调函数;如果在单位事件内再次触发事件,则重新计时</p>
-</blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function debunce(fn, delay = 500) &#123;</span><br><span class="line">    var timer = null</span><br><span class="line">    return function () &#123;</span><br><span class="line">    if (timer) &#123;</span><br><span class="line">        clearTimeout(timer)</span><br><span class="line">    &#125;</span><br><span class="line">    timer = setTimeout(() =&gt; &#123;</span><br><span class="line">        fn.apply(this, arguments)</span><br><span class="line">    &#125;, delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>理解:</p>
