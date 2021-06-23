@@ -4,19 +4,21 @@
   <meta charset="utf-8">
   
   
-  <title>categories | SuperTiger’s Blog</title>
+  <title>javaScript之new关键字实现 | SuperTiger’s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="白话文转述">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://example.com/categories/index.html">
+  <meta name="description" content="-new 关键字是用来创建实例的 12345678910111213141516function myNew() &amp;#123;      &#x2F;&#x2F; 创建一个无原型的对象      var obj &#x3D; Object.create(null)      &#x2F;&#x2F; 获取上下文      var context &#x3D; Array.prototype.shift.call(arguments)      &#x2F;&#x2F; 给ob">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaScript之new关键字实现">
+<meta property="og:url" content="http://example.com/js-note-4/index.html">
 <meta property="og:site_name" content="SuperTiger’s Blog">
-<meta property="og:description" content="白话文转述">
+<meta property="og:description" content="-new 关键字是用来创建实例的 12345678910111213141516function myNew() &amp;#123;      &#x2F;&#x2F; 创建一个无原型的对象      var obj &#x3D; Object.create(null)      &#x2F;&#x2F; 获取上下文      var context &#x3D; Array.prototype.shift.call(arguments)      &#x2F;&#x2F; 给ob">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-06-17T09:56:38.000Z">
-<meta property="article:modified_time" content="2021-06-17T09:56:54.275Z">
+<meta property="og:image" content="http://example.com/js-note-4/%E6%89%8B%E5%86%99new.jpg">
+<meta property="article:published_time" content="2021-06-21T07:31:12.000Z">
+<meta property="article:modified_time" content="2021-06-23T11:11:18.342Z">
 <meta property="article:author" content="SuperTg">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/js-note-4/%E6%89%8B%E5%86%99new.jpg">
   
     <link rel="alternate" href="/atom.xml" title="SuperTiger’s Blog" type="application/atom+xml">
   
@@ -73,12 +75,16 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="page-" class="h-entry article article-type-page" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-js-note-4" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/categories/index.html" class="article-date">
-  <time class="dt-published" datetime="2021-06-17T09:56:38.000Z" itemprop="datePublished">2021-06-17</time>
+    <a href="/js-note-4/" class="article-date">
+  <time class="dt-published" datetime="2021-06-21T07:31:12.000Z" itemprop="datePublished">2021-06-21</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/javaScript/">javaScript</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -87,7 +93,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      categories
+      javaScript之new关键字实现
     </h1>
   
 
@@ -95,11 +101,15 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <p>-new 关键字是用来创建实例的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function myNew() &#123;</span><br><span class="line">      // 创建一个无原型的对象</span><br><span class="line">      var obj = Object.create(null)</span><br><span class="line">      // 获取上下文</span><br><span class="line">      var context = Array.prototype.shift.call(arguments)</span><br><span class="line">      // 给obj设置原型</span><br><span class="line">      Object.setPrototypeOf(obj, context.prototype)</span><br><span class="line">      // 调用call方法,改变this指向,使其指向obj</span><br><span class="line">      var result = context.apply(obj, arguments)</span><br><span class="line">      return typeof result === &#x27;object&#x27; ? result : obj</span><br><span class="line">    &#125;</span><br><span class="line">// 测试</span><br><span class="line">function Person(name)&#123;</span><br><span class="line">    this.name = name</span><br><span class="line">&#125;</span><br><span class="line">let p = myNew(Person,&#x27;yh&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/js-note-4/%E6%89%8B%E5%86%99new.jpg" alt="&#39;手写new&#39;"></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/categories/index.html" data-id="ckq0s08g00000e8uefkbqanrl" data-title="categories" class="article-share-link">Share</a>
+      <a data-url="http://example.com/js-note-4/" data-id="ckq9dlddv000064ue93cl6wje" data-title="javaScript之new关键字实现" class="article-share-link">Share</a>
       
       
       
@@ -107,6 +117,16 @@
   </div>
   
     
+<nav id="article-nav">
+  
+  
+    <a href="/js-note-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">javaScript之继承</div>
+    </a>
+  
+</nav>
+
   
 </article>
 
